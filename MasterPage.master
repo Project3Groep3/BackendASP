@@ -10,11 +10,15 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
-        Test
+        <asp:ContentPlaceHolder id="cphKop" runat="server">
         </asp:ContentPlaceHolder>
-    </div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+
+        </asp:ContentPlaceHolder>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+
+        </asp:ContentPlaceHolder>
     </form>
-</body>
+        <h1>Hallo welkom op deze site</h1>
+        </body>
 </html>
