@@ -2,7 +2,6 @@
 
 set /p addMsg=Voeg een Commit bericht toe: 
 start /b cmd.exe /c git add -A
-echo Slaap tijd
 sleep 3
 start /b cmd.exe /c git commit -m "%addMsg%"
 sleep 5
