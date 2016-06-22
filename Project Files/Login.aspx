@@ -1,0 +1,60 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="Project_Files_Login" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <style type="text/css">
+        .auto-style1 {
+            width: 100%;
+        }
+        .auto-style2 {
+            width: 110px;
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <form id="form1" runat="server">
+        <table class="auto-style1">
+            <tr>
+                <td class="auto-style2"> 
+        <asp:Label ID="Label1" runat="server" Text="Username"></asp:Label></td>
+                <td> <asp:TextBox ID="txtUsername" runat="server" style="margin-top: 1px; margin-left: 0px;" Width="160px"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style2">
+        <asp:Label ID="Label2" runat="server" Text="WachtWoord"></asp:Label></td>
+                <td> <asp:TextBox ID="txtPassword" runat="server" Width="162px"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style2">
+        <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click" style="height: 29px" />
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style2">
+                    <asp:Label ID="Label3" runat="server" Text="Status"></asp:Label>
+                </td>
+                <td>
+        <asp:Label ID="lblStatus" runat="server" Visible="False"></asp:Label>
+                </td>
+            </tr>
+        </table>
+    <div> 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        <br />
+        &nbsp;&nbsp; 
+        <br />
+    </div>
+    </form>
+    <p>
+        &nbsp;</p>
+    </body>
+</html>

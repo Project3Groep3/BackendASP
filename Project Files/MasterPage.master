@@ -12,15 +12,15 @@
 <body>
     <form id="form1" runat="server">
         <asp:ContentPlaceHolder id="cphKop" runat="server">
+        <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hallo welkom op deze site</h1>
         </asp:ContentPlaceHolder>
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
-
+        <asp:ContentPlaceHolder ID="cphMenu" runat="server">
+            <asp:Menu ID="Menu1" runat="server"></asp:Menu>
         </asp:ContentPlaceHolder>
     </form>
-        <h1>Hallo welkom op deze site</h1>
 
         <asp:ContentPlaceHolder ID="cphFooter" runat="server">
         </asp:ContentPlaceHolder>
-        <footer>Gemaakt door Mike Damen</footer>
+        <footer>Gemaakt door Dukes Game Engeneering</footer>
         </body>
 </html>
