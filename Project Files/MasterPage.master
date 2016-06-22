@@ -11,16 +11,24 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <div id="Kop">
         <asp:ContentPlaceHolder id="cphKop" runat="server">
         <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hallo welkom op deze site</h1>
         </asp:ContentPlaceHolder>
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div id="Menu">
         <asp:ContentPlaceHolder ID="cphMenu" runat="server">
-            <asp:Menu ID="Menu1" runat="server"></asp:Menu>
         </asp:ContentPlaceHolder>
-    </form>
-
+        </div>
+        <div id="Footer">
         <asp:ContentPlaceHolder ID="cphFooter" runat="server">
         </asp:ContentPlaceHolder>
         <footer>Gemaakt door Dukes Game Engeneering</footer>
+        </div>
+    </form>
         </body>
 </html>

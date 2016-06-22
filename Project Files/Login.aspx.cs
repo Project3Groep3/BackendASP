@@ -33,17 +33,15 @@ public partial class Project_Files_Login : System.Web.UI.Page
             if (dt.Rows.Count > 0)
             {
                 lblStatus.Visible = true;
-                lblStatus.Text = "Login Successvoll";
+                lblStatus.Text = "Login Successvol";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Login Successfull');", true);
-                //Or write using Response.Write("Login Successfull");
-                //Or redirect using Response.Redirect("Mypanel.aspx");
+                Server.Transfer("Home.aspx", true);
             }
             else
             {
                 lblStatus.Visible = true;
                 lblStatus.Text = "Foute Gebruikersnaam of Wachtwoord";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Wrong Username/Password');", true);
-                //Or write using Response.Write("Wrong Username/Password");
             }
         }
         finally
