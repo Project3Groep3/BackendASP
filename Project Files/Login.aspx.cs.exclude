@@ -9,7 +9,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Security;
 
-public partial class Project_Files_Home : System.Web.UI.Page
+public partial class Project_Files_Login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -62,11 +62,11 @@ public partial class Project_Files_Home : System.Web.UI.Page
                 lblStatus.Text = "Login Successvol";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Login Succesvol');", true);
                 //Server.Transfer("Home.aspx", true);
-                if (lblTest.Text == "0")
+                if(lblTest.Text == "0")
                 {
                     Server.Transfer("Admin.aspx", true);
                 }
-                else if (lblTest.Text == "1")
+                else if(lblTest.Text == "1")
                 {
                     Server.Transfer("FestivalManager.aspx");
                 }
@@ -79,7 +79,6 @@ public partial class Project_Files_Home : System.Web.UI.Page
             {
                 lblStatus.Visible = true;
                 lblStatus.Text = "Foute Gebruikersnaam of Wachtwoord";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Foute Username/Password');", true);
             }
         }
         finally
@@ -94,12 +93,5 @@ public partial class Project_Files_Home : System.Web.UI.Page
     protected void btnBack_Click(object sender, EventArgs e)
     {
         Server.Transfer("Home.aspx");
-    }
-
-
-
-    protected void btnLogout_Click(object sender, EventArgs e)
-    {
-        Server.Transfer("Login.aspx", true);
     }
 }

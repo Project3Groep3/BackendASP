@@ -6,7 +6,7 @@
 <head runat="server">
     <title></title>
     <asp:ContentPlaceHolder id="head" runat="server">
-        <link href="../CSS/StyleSheet.css" rel="stylesheet" />
+        <link href="../CSS/StyleSheet.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
     </asp:ContentPlaceHolder>
 </head>
 <body>
@@ -16,13 +16,23 @@
         <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hallo welkom op deze site</h1>
         </asp:ContentPlaceHolder>
         </div>
-        <br />
-        <br />
-        <br />
-        <br />
         <div id="Menu">
         <asp:ContentPlaceHolder ID="cphMenu" runat="server">
+                <h3>Menu</h3>
+    <asp:Button ID="Button2" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
+    <asp:Button ID="Button1" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
+    <asp:Button ID="Button3" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
+    <asp:Button ID="Button4" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
         </asp:ContentPlaceHolder>
+        </div>
+        <div id="Tekst">
+            <asp:ContentPlaceHolder ID="cphTekst" runat="server"></asp:ContentPlaceHolder>
+        </div>
+        <div id="ZijMenu">
+            <asp:ContentPlaceHolder ID="cphZijMenu" runat="server"></asp:ContentPlaceHolder>
+        </div>
+        <div id="BlokRechts">
+            <asp:ContentPlaceHolder ID="cphRechts" runat="server"></asp:ContentPlaceHolder>
         </div>
         <div id="Footer">
         <asp:ContentPlaceHolder ID="cphFooter" runat="server">

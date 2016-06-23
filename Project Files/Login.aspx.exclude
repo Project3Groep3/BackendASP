@@ -36,7 +36,9 @@
                 <td class="auto-style2">
         <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click" style="height: 29px" />
                 </td>
-                <td>&nbsp;</td>
+                <td>
+                    <asp:Button ID="btnBack" runat="server" OnClick="btnBack_Click" Text="Terug" />
+                </td>
             </tr>
             <tr>
                 <td class="auto-style2">
@@ -53,8 +55,7 @@
         &nbsp;&nbsp; 
         <br />
     </div>
+        <asp:Label ID="lblTest" runat="server" Text="Labeltttt" Visible="False"></asp:Label>
     </form>
-    <p>
-        &nbsp;</p>
     </body>
 </html>
