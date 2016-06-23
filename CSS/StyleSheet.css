@@ -64,7 +64,11 @@
     right: 80%;
     top: 20%;
     text-align: center;
-    width: 81%;
+    width: 80%;
     height: 80%;
 }
 
+.Inlog
+{
+    text-align: right;
+}

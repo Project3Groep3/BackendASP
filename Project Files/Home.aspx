@@ -27,10 +27,7 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphMenu" Runat="Server">
     <h3>Menu</h3>
-    <asp:Button ID="btnInstellingen" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
-    <asp:Button ID="btnData" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
-    <asp:Button ID="btnEdit" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
-    <asp:Button ID="btnArtiest" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
+    <h2>Log in voor het Menu</h2>
     </asp:Content>
 <asp:Content ID="Content7" ContentPlaceHolderID="cphTekst" Runat="Server">
     <h1>Log In</h1>

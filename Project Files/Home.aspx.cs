@@ -8,6 +8,7 @@ using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Security;
+using System.Web.SessionState;
 
 public partial class Project_Files_Home : System.Web.UI.Page
 {
@@ -79,7 +80,7 @@ public partial class Project_Files_Home : System.Web.UI.Page
             {
                 lblStatus.Visible = true;
                 lblStatus.Text = "Foute Gebruikersnaam of Wachtwoord";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Foute Username/Password');", true);
+                //ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Foute Username/Password');", true);
             }
         }
         finally
@@ -95,11 +96,5 @@ public partial class Project_Files_Home : System.Web.UI.Page
     {
         Server.Transfer("Home.aspx");
     }
-
-
-
-    protected void btnLogout_Click(object sender, EventArgs e)
-    {
-        Server.Transfer("Login.aspx", true);
-    }
+   
 }
