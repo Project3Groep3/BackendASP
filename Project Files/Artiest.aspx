@@ -15,9 +15,11 @@
 </asp:Content>
 <asp:Content ID="Content7" ContentPlaceHolderID="cphTekst" Runat="Server">
     <h1>Artiesten</h1>
+    <asp:Button ID="btnToevoegen" runat="server" OnClick="btnToevoegen_Click" Text="Artiest toevoegen" />
+    <br />
     Selecteer een Artiest<br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <asp:DropDownList ID="dplArtiesten" runat="server" AutoPostBack="True" OnSelectedIndexChanged="dplArtiesten_SelectedIndexChanged" Width="120px">
+    <asp:DropDownList ID="dplArtiesten" runat="server" AutoPostBack="True" OnSelectedIndexChanged="dplArtiesten_SelectedIndexChanged" Width="120px" style="margin-bottom: 0px">
         <asp:ListItem Selected="True">Artiesten</asp:ListItem>
     </asp:DropDownList>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -26,7 +28,7 @@
     <asp:Label ID="Label1" runat="server" Text="Naam:"></asp:Label>
     &nbsp;<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <asp:TextBox ID="txtSQLNaam" runat="server" ReadOnly="True" Width="120px"></asp:TextBox>
+    <asp:TextBox ID="txtSQLNaam" runat="server" ReadOnly="True" Width="120px" AutoPostBack="True"></asp:TextBox>
     &nbsp;&nbsp;
     <asp:Button ID="btnEdit" runat="server" OnClick="btnEdit_Click" Text="Wijzigen" Width="70px" />
 &nbsp;&nbsp;&nbsp;
@@ -40,10 +42,30 @@
     <asp:Button ID="btnEdit2" runat="server" OnClick="btnEdit2_Click" Text="Wijzigen" Width="70px" />
 &nbsp;&nbsp;&nbsp;
     <asp:Button ID="btnOpslaan2" runat="server" Text="Opslaan" Width="70px" />
+    &nbsp;&nbsp;&nbsp;
     <br />
     <asp:Label ID="lblSQLUsername" runat="server" Text="Username:"></asp:Label>
     <br />
-    <asp:TextBox ID="txtSQLUsername" runat="server" Width="120px"></asp:TextBox>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <asp:TextBox ID="txtSQLUsername" runat="server" Width="120px" ReadOnly="True"></asp:TextBox>
+&nbsp;&nbsp;&nbsp;
+    <asp:Button ID="btnEdit4" runat="server" OnClick="btnEdit2_Click" Text="Wijzigen" Width="70px" />
+&nbsp;&nbsp;&nbsp;
+    <asp:Button ID="btnOpslaan4" runat="server" Text="Opslaan" Width="70px" />
+    <br />
+    <asp:Label ID="lblPssword" runat="server" Text="Password:"></asp:Label>
+    <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <asp:TextBox ID="txtSQLPassword" runat="server" Width="120px" ReadOnly="True" Height="22px"></asp:TextBox>
+&nbsp;&nbsp;&nbsp;
+    <asp:Button ID="btnEdit3" runat="server" OnClick="btnEdit2_Click" Text="Wijzigen" Width="70px" />
+&nbsp;&nbsp;&nbsp;
+    <asp:Button ID="btnOpslaan3" runat="server" Text="Opslaan" Width="70px" />
+    <br />
+    <asp:Label ID="lblOver" runat="server" Text="Over de Artiest:"></asp:Label>
+    <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <asp:TextBox ID="txtSQLInfo" runat="server" Height="113px" ReadOnly="True" TextMode="MultiLine" Width="420px"></asp:TextBox>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="cphZijMenu" Runat="Server">
 </asp:Content>

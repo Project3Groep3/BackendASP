@@ -43,10 +43,10 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
 
         // Maak de database commands
 
-        SqlCommand cmd = new SqlCommand();
+        SqlCommand naam = new SqlCommand();
 
-        cmd.Connection = conn;  // Selecteer connection object mee
-        cmd.CommandText = String.Format("SELECT Naam FROM Artiesten WHERE Naam = '{0}' ", dplArtiesten.SelectedItem.Text);
+        naam.Connection = conn;  // Selecteer connection object mee
+        naam.CommandText = String.Format("SELECT Naam FROM Artiesten WHERE Naam = '{0}'", dplArtiesten.SelectedItem.Text);
 
         SqlCommand email = new SqlCommand();
 
@@ -58,8 +58,18 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
         username.Connection = conn;  // Selecteer connection object mee
         username.CommandText = String.Format("SELECT Username FROM Users WHERE Naam = '{0}' ", dplArtiesten.SelectedItem.Text);
 
+        SqlCommand password = new SqlCommand();
+
+        username.Connection = conn;  // Selecteer connection object mee
+        username.CommandText = String.Format("SELECT Username FROM Users WHERE Naam = '{0}' ", dplArtiesten.SelectedItem.Text);
+
+        SqlCommand Info = new SqlCommand();
+
+        Info.Connection = conn;  // Selecteer connection object mee
+        Info.CommandText = String.Format("SELECT InnerContent FROM ArtiestenPagina WHERE Artiest = '{0}' ", dplArtiesten.SelectedItem.Text);
+
         // Zend het database commando en ontvang data terug.
-        SqlDataReader dr = cmd.ExecuteReader();
+        SqlDataReader dr = naam.ExecuteReader();
 
         while (dr.Read())
         {
@@ -74,7 +84,26 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
         }
         dr2.Close();
 
-        conn.Close();
+        //SqlDataReader dr3 = username.ExecuteReader();
+        //while (dr3.Read())
+        //{
+        //    txtSQLUsername.Text += dr3.GetString(0);
+        //}
+        //dr3.Close();
+
+        //SqlDataReader dr4 = password.ExecuteReader();
+        //while (dr4.Read())
+        //{
+        //    txtSQLPassword.Text += dr4.GetString(0);
+        //}
+        //dr4.Close();
+
+        SqlDataReader dr5 = Info.ExecuteReader();
+        while (dr5.Read())
+        {
+            txtSQLInfo.Text += dr5.GetString(0);
+        }
+        dr5.Close();
     }
 
 
@@ -108,5 +137,24 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
             }
         }
 
+    }
+
+    protected void btnToevoegen_Click(object sender, EventArgs e)
+    {
+        txtSQLEmail.ReadOnly = false;
+        txtSQLNaam.ReadOnly = false;
+        txtSQLPassword.ReadOnly = false;
+        txtSQLUsername.ReadOnly = false;
+        btnEdit2.Visible = false;
+        btnEdit.Visible = false;
+        btnEdit3.Visible = false;
+        btnEdit4.Visible = false;
+        //btnEdit5.Visible = false;
+        btnOpslaan.Visible = false;
+        btnOpslaan2.Visible = false;
+        btnOpslaan3.Visible = false;
+        btnOpslaan4.Visible = false;
+        //btnOpslaan5.Visible = false;
+        Label3.Text = dplArtiesten.SelectedItem.Text;
     }
 }
