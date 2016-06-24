@@ -63,6 +63,10 @@ public partial class Project_Files_Home : System.Web.UI.Page
                 lblStatus.Text = "Login Successvol";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Login Succesvol');", true);
                 //Server.Transfer("Home.aspx", true);
+                // Sla authorisatie op in een SessionState
+                Session["Auto"] = lblTest.Text;
+                Session["Usernaam"] = txtUsername.Text;
+                Session["Wachtwoord"] = txtPassword.Text;
                 if (lblTest.Text == "0")
                 {
                     Server.Transfer("Admin.aspx", true);
