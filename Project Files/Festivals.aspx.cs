@@ -117,7 +117,7 @@ public partial class Project_Files_Festivals : System.Web.UI.Page
 
     //Knoppen voor het menu
 
-    protected void btnInstellingen_Click1(object sender, EventArgs e)
+    protected void btnInstellingen_Click(object sender, EventArgs e)
     {
         Server.Transfer("SiteInstellingen.aspx");
     }
