@@ -4,6 +4,7 @@
     <link href="../CSS/StyleSheet.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphKop" Runat="Server">
+    <h1>Home</h1>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphMenu" Runat="Server">
     <h3>Menu</h3>
@@ -17,6 +18,7 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="cphZijMenu" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content6" ContentPlaceHolderID="cphRechts" Runat="Server">
+    <asp:Label ID="lblAuto" runat="server" Text="lblAuto" Visible="False"></asp:Label>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="cphFooter" Runat="Server">
 </asp:Content>

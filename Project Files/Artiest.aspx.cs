@@ -12,6 +12,7 @@ using System.Collections;
 using System.IO;
 
 
+
 public partial class Project_Files_Artiest : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
@@ -23,11 +24,11 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
         {
 
         }
-        else if(lblAuto.Text == "1")
+        else if (lblAuto.Text == "1")
         {
 
         }
-        else if(lblAuto.Text == "2")
+        else if (lblAuto.Text == "2")
         {
             dplArtiesten.Visible = false;
             lblSelect.Visible = false;
@@ -55,7 +56,7 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
             SqlCommand email = new SqlCommand();
 
             email.Connection = conn;  // Selecteer connection object mee
-            email.CommandText = String.Format("SELECT Email FROM Artiesten WHERE Naam = 'Seal'");
+            email.CommandText = String.Format("SELECT Email FROM Artiesten WHERE Naam = {0}", lblUsername.Text);
             SqlDataReader drEmail = email.ExecuteReader();
 
             drEmail.Read();
@@ -65,30 +66,32 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
             drEmail.Close();
             conn.Close();
         }
-        
-        if (!this.IsPostBack) //Checkt of er postbak is
-        {
-            string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(constr))  //selecteert 
+            if (!this.IsPostBack) //Checkt of er postbak is
             {
-                using (SqlCommand cmd = new SqlCommand("SELECT Naam FROM Artiesten"))  //Het commando
+                string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))  //selecteert 
                 {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Connection = con;  //Maakt een connectie
-                    con.Open();
-                    dplArtiesten.DataSource = cmd.ExecuteReader();
-                    dplArtiesten.DataTextField = "Naam";  //Data velden
-                    dplArtiesten.DataValueField = "Naam";
-                    dplArtiesten.DataBind();
-                    con.Close();
+                    using (SqlCommand cmd = new SqlCommand("SELECT Naam FROM Artiesten"))  //Het commando
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = con;  //Maakt een connectie
+                        con.Open();
+                        dplArtiesten.DataSource = cmd.ExecuteReader();
+                        dplArtiesten.DataTextField = "Naam";  //Data velden
+                        dplArtiesten.DataValueField = "Naam";
+                        dplArtiesten.DataBind();
+                        con.Close();
+                    }
                 }
             }
         }
-    }
 
     protected void dplArtiesten_SelectedIndexChanged(object sender, EventArgs e)
     {
         txtSQLNaam.Text = "";
+        txtSQLEmail.Text = "";
+        txtSQLInfo.Text = "";
+        txtSQLPassword.Text = "";
 
         // Een connectie maken met de SQL database
         SqlConnection conn = new SqlConnection();
@@ -126,8 +129,8 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
 
         SqlCommand password = new SqlCommand();
 
-        username.Connection = conn;  // Selecteer connection object mee
-        username.CommandText = String.Format("SELECT Username FROM Users WHERE Naam = '{0}' ", dplArtiesten.SelectedItem.Text);
+        password.Connection = conn;  // Selecteer connection object mee
+        password.CommandText = String.Format("SELECT Passwords FROM Users WHERE Naam = '{0}' ", dplArtiesten.SelectedItem.Text);
 
         SqlCommand Info = new SqlCommand();
 
@@ -150,12 +153,12 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
         }
         dr2.Close();
 
-        //SqlDataReader dr4 = password.ExecuteReader();
-        //while (dr4.Read())
-        //{
-        //    txtSQLPassword.Text += dr4.GetString(0);
-        //}
-        //dr4.Close();
+        SqlDataReader dr4 = password.ExecuteReader();
+        while (dr4.Read())
+        {
+            txtSQLPassword.Text += dr4.GetString(0);
+        }
+        dr4.Close();
 
         SqlDataReader dr5 = Info.ExecuteReader();
         while (dr5.Read())
@@ -300,6 +303,29 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
 
     protected void ddlFest_SelectedIndexChanged(object sender, EventArgs e)
     {
-        
+
+    }
+
+    //Alle knoppen voor het menu
+    protected void btnInstellingen_Click1(object sender, EventArgs e)
+    {
+        Server.Transfer("SiteInstellingen.aspx");
+    }
+
+    protected void btnData_Click(object sender, EventArgs e)
+    {
+        Server.Transfer("Festivals.aspx");
+    }
+
+
+
+    protected void btnArtiest_Click(object sender, EventArgs e)
+    {
+        Server.Transfer("Artiest.aspx");
+    }
+
+    protected void btnEditMenu_Click(object sender, EventArgs e)
+    {
+        Server.Transfer("Edit.aspx");
     }
 }

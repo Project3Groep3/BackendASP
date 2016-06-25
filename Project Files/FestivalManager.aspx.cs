@@ -9,6 +9,14 @@ public partial class Project_Files_FestivalManager : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        lblAuto.Text = (string)Session["Auto"]; //Checkt de SessieState
+        if (lblAuto.Text == "0")
+        {
 
+        }
+        else if (lblAuto.Text == "1")
+        {
+
+        }
     }
 }

@@ -8,10 +8,10 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphMenu" Runat="Server">
     <h3>Menu</h3>
-    <asp:Button ID="Button2" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
-    <asp:Button ID="Button1" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
-    <asp:Button ID="Button3" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
-    <asp:Button ID="Button4" runat="server" Text="Button" Width="20%" BorderStyle="None" Height="50%" />
+    <asp:Button ID="btnInstellingen" runat="server" Text="Thema's en Site Instellingen" Width="20%" BorderStyle="None" Height="50%" OnClick="btnInstellingen_Click1" />
+    <asp:Button ID="btnData" runat="server" Text="Festival Data" Width="20%" BorderStyle="None" Height="50%" OnClick="btnData_Click" />
+    <asp:Button ID="btnEditMenu" runat="server" Text="Bewerk Festivals" Width="20%" BorderStyle="None" Height="50%" OnClick="btnEditMenu_Click" />
+    <asp:Button ID="btnArtiest" runat="server" Text="Artiesten" Width="20%" BorderStyle="None" Height="50%" OnClick="btnArtiest_Click" />
 </asp:Content>
 <asp:Content ID="Content7" ContentPlaceHolderID="cphTekst" Runat="Server">
     <h1>Artiesten</h1>
