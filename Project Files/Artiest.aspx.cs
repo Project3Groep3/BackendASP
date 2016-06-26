@@ -56,7 +56,7 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
             SqlCommand email = new SqlCommand();
 
             email.Connection = conn;  // Selecteer connection object mee
-            email.CommandText = String.Format("SELECT Email FROM Artiesten WHERE Naam = {0}", lblUsername.Text);
+            email.CommandText = String.Format("SELECT Email FROM Artiesten WHERE Naam = '{0}' ", lblUsername.Text);
             SqlDataReader drEmail = email.ExecuteReader();
 
             drEmail.Read();

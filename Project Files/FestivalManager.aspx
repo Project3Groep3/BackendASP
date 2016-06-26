@@ -25,6 +25,8 @@
 </asp:Content>
 <asp:Content ID="Content6" ContentPlaceHolderID="cphRechts" Runat="Server">
     <asp:Label ID="lblAuto" runat="server" Text="Label" Visible="False"></asp:Label>
+        <asp:Label ID="Label3" runat="server" Text="Je bent Ingelogd Als"></asp:Label>
+    :<asp:Label ID="lblUsername" runat="server"></asp:Label>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="cphFooter" Runat="Server">
 </asp:Content>

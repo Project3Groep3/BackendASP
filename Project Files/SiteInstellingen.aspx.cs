@@ -16,7 +16,7 @@ public partial class Project_Files_SiteInstellingen : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        lblUsername.Text = (string)Session["Usernaam"]; //Checkt de  SessieState voor de username van de gebruiker
     }
     //Buttons voor het Menu
     protected void btnInstellingen_Click1(object sender, EventArgs e)

@@ -15,6 +15,8 @@ public partial class Project_Files_Edit : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        lblUsername.Text = (string)Session["Usernaam"]; //Checkt de  SessieState voor de username van de gebruiker
+
         //Textbox Vullen
         if (!this.IsPostBack) //Checkt of er postbak is
         {

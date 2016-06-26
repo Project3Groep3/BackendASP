@@ -16,6 +16,8 @@ public partial class Project_Files_Festivals : System.Web.UI.Page
     //Vult de dropdown vanuit de Database 
     protected void Page_Load(object sender, EventArgs e)
     {
+        lblUsername.Text = (string)Session["Usernaam"]; //Checkt de  SessieState voor de username van de gebruiker
+
         if (!this.IsPostBack) //Checkt of er postbak is
         {
             string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
