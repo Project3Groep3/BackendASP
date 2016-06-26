@@ -70,6 +70,8 @@
     <h2>Hallo</h2>
     </asp:Content>
 <asp:Content ID="Content6" ContentPlaceHolderID="cphRechts" Runat="Server">
+    <p>
+        Je bent nog niet ingelogd</p>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="cphFooter" Runat="Server">
 </asp:Content>

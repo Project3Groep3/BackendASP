@@ -13,8 +13,8 @@
     <asp:Button ID="btnArtiest" runat="server" Text="Artiesten" Width="20%" BorderStyle="None" Height="50%" OnClick="btnArtiest_Click" />
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="cphTekst" Runat="Server">
+    <h1>Festival Bewerker</h1>
     Bewerk een Festival<br />
-    <br />
     <asp:DropDownList ID="ddlFestivals" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlFestivals_SelectedIndexChanged">
     </asp:DropDownList>
     <br />

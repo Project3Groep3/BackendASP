@@ -84,18 +84,18 @@ public partial class Project_Files_Edit : System.Web.UI.Page
 
         SqlCommand Begin = new SqlCommand();
         Begin.Connection = conn;  // Selecteer connection object mee
-        Begin.CommandText = String.Format("SELECT Begindatum FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text);
+        Begin.CommandText = String.Format("SELECT cast(Begindatum as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text);
 
 
         SqlCommand Eind = new SqlCommand();
 
-        Begin.Connection = conn;  // Selecteer connection object mee
-        Begin.CommandText = String.Format("SELECT Eindatum FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text);
+        Eind.Connection = conn;  // Selecteer connection object mee
+        Eind.CommandText = String.Format("SELECT cast(Eindatum as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text);
 
         SqlCommand Prijs = new SqlCommand();
 
         Prijs.Connection = conn;  // Selecteer connection object mee
-        Prijs.CommandText = String.Format("select cast(Prijs as varchar(50))FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text);
+        Prijs.CommandText = String.Format("select cast(Prijs as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text);
 
         // Zend het database commando en ontvang data terug.
         SqlDataReader dr = naam.ExecuteReader();
@@ -113,19 +113,19 @@ public partial class Project_Files_Edit : System.Web.UI.Page
         }
         dr2.Close();
 
-        //SqlDataReader dr3 = Begin.ExecuteReader();
-        //while (dr3.Read())
-        //{
-        //        txtBegin.Text += dr3.GetString(0);
-        //}
-        //dr3.Close();
+        SqlDataReader dr3 = Begin.ExecuteReader();
+        while (dr3.Read())
+        {
+                txtBegin.Text += dr3.GetString(0);
+        }
+        dr3.Close();
 
-        //SqlDataReader dr4 = Eind.ExecuteReader();
-        //while (dr4.Read())
-        //{
-        //    txtEind.Text += dr4.GetString(0);
-        //}
-        //dr4.Close();
+        SqlDataReader dr4 = Eind.ExecuteReader();
+        while (dr4.Read())
+        {
+            txtEind.Text += dr4.GetString(0);
+        }
+        dr4.Close();
 
         SqlDataReader dr5 = Prijs.ExecuteReader();
         while (dr5.Read())
@@ -142,27 +142,57 @@ public partial class Project_Files_Edit : System.Web.UI.Page
         using (SqlConnection con = new SqlConnection(constr))  //selecteert 
         {
             //Naam command aan maken
-            SqlCommand Naam = new SqlCommand();  //Selecteert de Groep
+            SqlCommand Naam = new SqlCommand();  //Maakt het nieuwe SQL Commando 
             Naam.CommandType = CommandType.Text;
             Naam.Connection = con;  //Maakt een connectie
             Naam.CommandText = String.Format("update Festival set Naam = @Naam where Naam =  '{0}' ", ddlFestivals.SelectedItem.Text);
 
             //Plaats command aanmaken
-            SqlCommand Plaats = new SqlCommand();  //Selecteert de Groep
+            SqlCommand Plaats = new SqlCommand();  //Maakt het nieuwe SQL Commando
             Plaats.CommandType = CommandType.Text;
             Plaats.Connection = con;  //Maakt een connectie
             Plaats.CommandText = String.Format("update Festival set Plaats = @Plaats where Naam =  '{0}' ", ddlFestivals.SelectedItem.Text);
+
+            //Begin Datum Commando aanmaken
+            SqlCommand Begin = new SqlCommand();  //Selecteert de Groep
+            Begin.CommandType = CommandType.Text;
+            Begin.Connection = con;  //Maakt een connectie
+            Begin.CommandText = String.Format("update Festival set Begindatum = CAST('@Begin' AS date) where Naam =  '{0}' ", ddlFestivals.SelectedItem.Text);
+
+            //Eind datum commando aanmaken
+            SqlCommand Eind = new SqlCommand();  //Selecteert de Groep
+            Eind.CommandType = CommandType.Text;
+            Eind.Connection = con;  //Maakt een connectie
+            Eind.CommandText = String.Format("update Festival set Eindatum = CAST('@Eind' AS date) where Naam =  '{0}' ", ddlFestivals.SelectedItem.Text);
+
+            SqlCommand Prijs = new SqlCommand();  //Maakt het nieuwe SQL COmmando 
+            Prijs.CommandType = CommandType.Text;
+            Prijs.Connection = con;  //Maakt een connectie
+            Prijs.CommandText = String.Format("update Festival set Prijs = @Prijs where Naam =  '{0}' ", ddlFestivals.SelectedItem.Text);
             {
                 con.Open();
                 //De Naam Update
-                Naam.Parameters.AddWithValue("Naam", ddlFestivals.SelectedItem.Text);
+                Naam.Parameters.AddWithValue("Naam", txtNaam.Text);
                 Naam.ExecuteNonQuery();
 
                 //De Plaats Update
-                Plaats.Parameters.AddWithValue("Plaats", ddlFestivals.SelectedItem.Text);
+                Plaats.Parameters.AddWithValue("Plaats", txtPlaats.Text);
                 Plaats.ExecuteNonQuery();
 
-                //Hij verandert values nog niet en moet ik ff nakijken met sql 
+                //Werken nog niet helemaal
+                //Begin datum Update
+                //Begin.Parameters.AddWithValue("Begin", DateTime.Parse(txtBegin.Text));
+                //Begin.ExecuteNonQuery();
+
+                ////Eind datum Update
+                //Eind.Parameters.AddWithValue("Eind", DateTime.Parse(txtPlaats.Text));
+                //Eind.ExecuteNonQuery();
+
+                //De Prijs Update
+                Prijs.Parameters.AddWithValue("Prijs", txtPrijs.Text);
+                Prijs.ExecuteNonQuery();
+
+                //Bevestiging
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Wijziging compleet');", true); //Geeft een bevestigins popup als het gelukt is
                 con.Close();
             }
