@@ -18,6 +18,9 @@
     <asp:DropDownList ID="ddlFestivals" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlFestivals_SelectedIndexChanged">
     </asp:DropDownList>
     <br />
+    <asp:Image ID="imgBanner" runat="server" Width="250" Height="250" />
+    <br />
+    <asp:FileUpload ID="imgUpload" runat="server" />
     <br />
     <asp:Label ID="lblNaam" runat="server" Text="Naam:"></asp:Label>
     <br />
@@ -42,6 +45,22 @@
     <asp:Label ID="lblPrijs" runat="server" Text="Prijs:"></asp:Label>
     <br />
     <asp:TextBox ID="txtPrijs" runat="server"></asp:TextBox>
+    <br />
+    <h2>Thema</h2>
+    <asp:Label ID="lblPrimaryColor" runat="server" Text="Primaire Kleur:"></asp:Label>
+    &nbsp;<br />
+    <asp:TextBox ID="txtPrimaryColor" runat="server"></asp:TextBox>
+    <br />
+    &nbsp;<br />
+    <asp:Label ID="lblSecondaryColor" runat="server" Text="Secundaire Kleur:"></asp:Label>
+    <br />
+    &nbsp;<asp:TextBox ID="txtSecondaryColor" runat="server" ></asp:TextBox>
+    <br />
+    <br />
+    <asp:Label ID="lblFontColor" runat="server" Text="Tekst Kleur:"></asp:Label>
+&nbsp;<br />
+    <asp:TextBox ID="txtFontColor" runat="server"></asp:TextBox>
+    <br />
     <br />
     <br />
     <asp:Button ID="btnUpdate" runat="server" OnClick="btnUpdate_Click" Text="Update het Festival" Width="168px" />

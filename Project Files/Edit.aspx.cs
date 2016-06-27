@@ -10,6 +10,9 @@ using System.Data.SqlClient;
 using System.Web.Security;
 using System.Collections;
 using System.IO;
+using System.Text;
+using System.Data.SqlTypes;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 public partial class Project_Files_Edit : System.Web.UI.Page
 {
@@ -66,138 +69,170 @@ public partial class Project_Files_Edit : System.Web.UI.Page
         txtBegin.Text = "";
         txtEind.Text = "";
         txtPrijs.Text = "";
+        txtPrimaryColor.Text = "";
+        txtSecondaryColor.Text = "";
+        txtFontColor.Text = "";
 
         // Een connectie maken met de SQL database
         SqlConnection conn = new SqlConnection();
         conn.ConnectionString = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
         conn.Open();
 
-        // Maak de database commands
+        // Gemaakt door Wesley van Osch - 27-6-2016 - Maar 1 SELECT command voor alles
+        SqlCommand cmd = new SqlCommand();
+        cmd.Connection = conn;
+        cmd.CommandText = String.Format("SELECT * FROM Festival WHERE Naam = '{0}'", ddlFestivals.Text);
 
-        SqlCommand naam = new SqlCommand();
-
-        naam.Connection = conn;  // Selecteer connection object mee
-        naam.CommandText = String.Format("SELECT Naam FROM Festival WHERE Naam = '{0}'", ddlFestivals.SelectedItem.Text);  //Naam van het festival
-
-        SqlCommand Plaats = new SqlCommand();
-
-        Plaats.Connection = conn;  // Selecteer connection object mee
-        Plaats.CommandText = String.Format("SELECT Plaats FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text); //De platts
-
-        SqlCommand Begin = new SqlCommand();
-        Begin.Connection = conn;  // Selecteer connection object mee
-        Begin.CommandText = String.Format("SELECT cast(Begindatum as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text);
-
-
-        SqlCommand Eind = new SqlCommand();
-
-        Eind.Connection = conn;  // Selecteer connection object mee
-        Eind.CommandText = String.Format("SELECT cast(Einddatum as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text);
-
-        SqlCommand Prijs = new SqlCommand();
-
-        Prijs.Connection = conn;  // Selecteer connection object mee
-        Prijs.CommandText = String.Format("select cast(Prijs as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text);
-
-        // Zend het database commando en ontvang data terug.
-        SqlDataReader dr = naam.ExecuteReader();
-
-        while (dr.Read())
+        // Execute het command
+        int ID = 0;
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
         {
-            txtNaam.Text += dr.GetString(0);
-        }
-        dr.Close();
+            // Festival Naam
+            txtNaam.Text = reader.GetString(1);
 
-        SqlDataReader dr2 = Plaats.ExecuteReader();
-        while (dr2.Read())
+            // Plaats Naam
+            txtPlaats.Text = reader.GetString(2);
+
+            // Begin Datum
+            string begin = reader.GetDateTime(3).ToString("yyyy-MM-dd");
+            string[] splBegin = begin.Split('-');
+            txtBegin.Text = splBegin[2] + "-" + splBegin[1] + "-" + splBegin[0];
+
+            // Eind Datum
+            string eind = reader.GetDateTime(4).ToString("yyyy-MM-dd");
+            string[] splEind = eind.Split('-');
+            txtEind.Text = splEind[2] + "-" + splEind[1] + "-" + splEind[0];
+
+            // Prijs
+            txtPrijs.Text = Math.Round(reader.GetDecimal(5), 2).ToString();
+
+            // ID voor thema
+            ID = reader.GetInt32(0);
+        }
+        reader.Close();
+
+        // De kleuren
+        SqlCommand cmdColor = new SqlCommand();
+        cmdColor.Connection = conn;
+        cmdColor.CommandText = String.Format("SELECT * FROM Themas WHERE FestivalID = '{0}'", ID);
+
+        SqlDataReader colorReader = cmdColor.ExecuteReader();
+
+        while (colorReader.Read())
         {
-            txtPlaats.Text += dr2.GetString(0);
-        }
-        dr2.Close();
+            // Primary Color
+            txtPrimaryColor.Text = colorReader.GetString(1);
 
-        SqlDataReader dr3 = Begin.ExecuteReader();
-        while (dr3.Read())
-        {
-                txtBegin.Text += dr3.GetString(0);
-        }
-        dr3.Close();
+            // Secondary Color
+            txtSecondaryColor.Text = colorReader.GetString(2);
 
-        SqlDataReader dr4 = Eind.ExecuteReader();
-        while (dr4.Read())
-        {
-            txtEind.Text += dr4.GetString(0);
+            // Font Color
+            txtFontColor.Text = colorReader.GetString(3);
         }
-        dr4.Close();
+        colorReader.Close();
 
-        SqlDataReader dr5 = Prijs.ExecuteReader();
-        while (dr5.Read())
-        {
-            txtPrijs.Text += dr5.GetString(0);
-        }
-        dr5.Close();
+        // De afbeelding, moet in aparten SELECT omdat ik het als scalar moet executen
+        SqlCommand cmdImg = new SqlCommand();
+        cmdImg.Connection = conn;
+        cmdImg.CommandText = String.Format("SELECT FestivalImage FROM Festival WHERE Naam = '{0}'", ddlFestivals.Text);
 
-}
+        byte[] imgData = (byte[])cmdImg.ExecuteScalar();
+        imgBanner.Attributes["src"] = "data:image/png" + ";base64," + Convert.ToBase64String(imgData);
+    }
 
     protected void btnUpdate_Click(object sender, EventArgs e)
     {
         string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))  //selecteert 
         {
-            //Naam command aan maken
-            SqlCommand Naam = new SqlCommand();  //Maakt het nieuwe SQL Commando 
-            Naam.CommandType = CommandType.Text;
-            Naam.Connection = con;  //Maakt een connectie
-            Naam.CommandText = String.Format("update Festival set Naam = @Naam where Naam =  '{0}' ", ddlFestivals.SelectedItem.Text);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = con;
 
-            //Plaats command aanmaken
-            SqlCommand Plaats = new SqlCommand();  //Maakt het nieuwe SQL Commando
-            Plaats.CommandType = CommandType.Text;
-            Plaats.Connection = con;  //Maakt een connectie
-            Plaats.CommandText = String.Format("update Festival set Plaats = @Plaats where Naam =  '{0}' ", ddlFestivals.SelectedItem.Text);
-
-            //Begin Datum Commando aanmaken
-            SqlCommand Begin = new SqlCommand();  //Selecteert de Groep
-            Begin.CommandType = CommandType.Text;
-            Begin.Connection = con;  //Maakt een connectie
-            Begin.CommandText = String.Format("update Festival set Begindatum = CAST('@Begin' AS date) where Naam =  '{0}' ", ddlFestivals.SelectedItem.Text);
-
-            //Eind datum commando aanmaken
-            SqlCommand Eind = new SqlCommand();  //Selecteert de Groep
-            Eind.CommandType = CommandType.Text;
-            Eind.Connection = con;  //Maakt een connectie
-            Eind.CommandText = String.Format("update Festival set Eindatum = CAST('@Eind' AS date) where Naam =  '{0}' ", ddlFestivals.SelectedItem.Text);
-
-            SqlCommand Prijs = new SqlCommand();  //Maakt het nieuwe SQL COmmando 
-            Prijs.CommandType = CommandType.Text;
-            Prijs.Connection = con;  //Maakt een connectie
-            Prijs.CommandText = String.Format("update Festival set Prijs = @Prijs where Naam =  '{0}' ", ddlFestivals.SelectedItem.Text);
+            // Welke van de twee regels er moet worden gebruikt, met of zonder image
+            if (imgUpload.FileBytes.Length > 0)
             {
-                con.Open();
-                //De Naam Update
-                Naam.Parameters.AddWithValue("Naam", txtNaam.Text);
-                Naam.ExecuteNonQuery();
-
-                //De Plaats Update
-                Plaats.Parameters.AddWithValue("Plaats", txtPlaats.Text);
-                Plaats.ExecuteNonQuery();
-
-                //Werken nog niet helemaal
-                //Begin datum Update
-                //Begin.Parameters.AddWithValue("Begin", DateTime.Parse(txtBegin.Text));
-                //Begin.ExecuteNonQuery();
-
-                ////Eind datum Update
-                //Eind.Parameters.AddWithValue("Eind", DateTime.Parse(txtPlaats.Text));
-                //Eind.ExecuteNonQuery();
-
-                //De Prijs Update
-                Prijs.Parameters.AddWithValue("Prijs", txtPrijs.Text);
-                Prijs.ExecuteNonQuery();
-
-                //Bevestiging
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Wijziging compleet');", true); //Geeft een bevestigins popup als het gelukt is
-                con.Close();
+                cmd.CommandText = String.Format("UPDATE Festival SET Naam = @Naam, Plaats = @Plaats, Begindatum = @BeginDatum, Einddatum = @EindDatum, Prijs = @Prijs, FestivalImage = @FestivalImage WHERE Naam = '{0}'", ddlFestivals.SelectedItem.Text);
             }
+            else
+            {
+                cmd.CommandText = String.Format("UPDATE Festival SET Naam = @Naam, Plaats = @Plaats, Begindatum = @BeginDatum, Einddatum = @EindDatum, Prijs = @Prijs WHERE Naam = '{0}'", ddlFestivals.SelectedItem.Text);
+            }
+
+            // Open de connectie
+            con.Open();
+
+            // Naam Toevoegen
+            cmd.Parameters.AddWithValue("Naam", txtNaam.Text);
+
+            // Plaats Toevoegen
+            cmd.Parameters.AddWithValue("Plaats", txtPlaats.Text);
+
+            // Begin Datum Toevoegen en formatten
+            string[] splBegin = txtBegin.Text.Split('-');
+            string beginDatum = splBegin[2] + "/" + splBegin[1] + "/" + splBegin[0];
+
+            cmd.Parameters.AddWithValue("BeginDatum", SqlDbType.Date).Value = beginDatum;
+
+            // Eind Datum Toevoegen en formatten
+            string[] splEind = txtEind.Text.Split('-');
+            string eindDatum = splEind[2] + "/" + splEind[1] + "/" + splEind[0];
+
+            cmd.Parameters.AddWithValue("EindDatum", SqlDbType.Date).Value = eindDatum;
+
+            // Prijs Toevoegen
+            cmd.Parameters.AddWithValue("Prijs", SqlDbType.Money).Value = float.Parse(txtPrijs.Text);
+
+            // Festival Image Toevoegen
+            if (imgUpload.FileBytes.Length > 0)
+            {
+                cmd.Parameters.AddWithValue("FestivalImage", SqlDbType.Image).Value = imgUpload.FileBytes;
+            }
+
+            // Main Command Executen
+            cmd.ExecuteNonQuery();
+
+            // Sub Query Command
+            SqlCommand sub = new SqlCommand();
+            sub.Connection = con;
+            sub.CommandText = String.Format("SELECT FestivalID FROM Festival WHERE Naam =  '{0}'", ddlFestivals.SelectedItem.Text);
+
+            // Sub Query Uitlezen
+            int subID = 0;
+            SqlDataReader subRead = sub.ExecuteReader();
+            while (subRead.Read())
+            {
+                subID = subRead.GetInt32(0);
+            }
+            subRead.Close();
+
+            // Thema Command
+            SqlCommand cmdColor = new SqlCommand();
+            cmdColor.CommandType = CommandType.Text;
+            cmdColor.Connection = con;
+            cmdColor.CommandText = String.Format("UPDATE Themas SET PrimaryColor = @PrimaryColor, SecondaryColor = @SecondaryColor, FontColor = @FontColor WHERE FestivalID = '{0}'", subID);
+
+            // Primary Color Toevoegen
+            cmdColor.Parameters.AddWithValue("PrimaryColor", txtPrimaryColor.Text);
+
+            // Secondary Color Toevoegen
+            cmdColor.Parameters.AddWithValue("SecondaryColor", txtSecondaryColor.Text);
+
+            // Font Color Toevoegen
+            cmdColor.Parameters.AddWithValue("FontColor", txtFontColor.Text);
+
+            // Kleur Command Executen
+            cmdColor.ExecuteNonQuery();
+
+            //Bevestiging
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Wijziging compleet');", true); //Geeft een bevestigins popup als het gelukt is
+
+            // Sluit Connectie
+            con.Close();
+
+            // Pagina Refresh
+            Response.Redirect(Request.RawUrl);
         }
     }
 }

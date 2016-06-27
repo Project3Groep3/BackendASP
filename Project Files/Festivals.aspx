@@ -4,7 +4,6 @@
     <link href="../CSS/StyleSheet.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphKop" Runat="Server">
-    <h1>Festival Data</h1>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphMenu" Runat="Server">
     <h3>Menu</h3>
@@ -21,6 +20,8 @@
     <br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <asp:DropDownList ID="ddlFestival" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlFestival_SelectedIndexChanged" style="margin-left: 0px" Width="147px"></asp:DropDownList>
+    <br />
+    <asp:Image ID="imgBanner" runat="server" Width="250px" Height="250px" />
     <br />
     <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -45,6 +46,17 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <asp:Label ID="lblPrijs" runat="server" Text="Prijs:"></asp:Label>
 &nbsp;<asp:TextBox ID="txtPrijs" runat="server" ReadOnly="True"></asp:TextBox>
     <br />
+    <!-- Geschreven Door Wesley van Osch - 26-6-2016 -->
+    <br />
+    <h2>Thema</h2>
+    <asp:Label ID="lblPrimaryColor" runat="server" Text="Primaire Kleur:"></asp:Label>
+    &nbsp;<asp:TextBox ID="txtPrimaryColor" runat="server" ReadOnly="True"></asp:TextBox>
+    &nbsp;<br />
+    <asp:Label ID="lblSecondaryColor" runat="server" Text="Secundaire Kleur:"></asp:Label>
+    &nbsp;<asp:TextBox ID="txtSecondaryColor" runat="server" ReadOnly="True"></asp:TextBox>
+    <br />
+    <asp:Label ID="lblFontColor" runat="server" Text="Tekst Kleur:"></asp:Label>
+&nbsp;<asp:TextBox ID="txtFontColor" runat="server" ReadOnly="True"></asp:TextBox>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="cphZijMenu" Runat="Server">
 </asp:Content>

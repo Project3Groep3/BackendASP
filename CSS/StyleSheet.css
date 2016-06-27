@@ -1,5 +1,5 @@
 ﻿body 
-{
+{    font-weight: 700;
 }
 
 #Kop
@@ -13,6 +13,9 @@
         background-color: #00695c;
         margin: 0px;
         padding: 0px;
+
+        /* De Achtergrond laag */
+        z-index: 0;
 }
 
 #Menu
@@ -26,6 +29,8 @@
     width: 100%;
     margin: 0px;
     padding: 0px;
+    /* De voorgrond laag */
+    z-index: 1;
 }
 #ZijMenu
 {

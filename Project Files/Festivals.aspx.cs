@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Web.Security;
 using System.Collections;
 using System.IO;
+using System.Drawing;
 
 public partial class Project_Files_Festivals : System.Web.UI.Page
 {
@@ -46,75 +47,77 @@ public partial class Project_Files_Festivals : System.Web.UI.Page
         txtEind.Text = "";
         txtPrijs.Text = "";
 
+        // Gemaakt: Wesley van Osch - 26-6-2016
+        txtPrimaryColor.Text = "";
+        txtSecondaryColor.Text = "";
 
         // Een connectie maken met de SQL database
         SqlConnection conn = new SqlConnection();
         conn.ConnectionString = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
         conn.Open();
 
-        // Maak de database commands
+        // Gemaakt door Wesley van Osch - 27-6-2016 - Maar 1 SELECT command voor alles
+        SqlCommand cmd = new SqlCommand();
+        cmd.Connection = conn;
+        cmd.CommandText = String.Format("SELECT * FROM Festival WHERE Naam = '{0}'", ddlFestival.Text);
 
-        SqlCommand naam = new SqlCommand();
-
-        naam.Connection = conn;  // Selecteer connection object mee
-        naam.CommandText = String.Format("SELECT Naam FROM Festival WHERE Naam = '{0}'", ddlFestival.SelectedItem.Text);  //Naam van het festival
-
-        SqlCommand Plaats = new SqlCommand();
-
-        Plaats.Connection = conn;  // Selecteer connection object mee
-        Plaats.CommandText = String.Format("SELECT Plaats FROM Festival WHERE Naam = '{0}' ", ddlFestival.SelectedItem.Text); //De platts
-
-        SqlCommand Begin = new SqlCommand();
-        Begin.Connection = conn;  // Selecteer connection object mee
-        Begin.CommandText = String.Format("SELECT cast(Begindatum as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestival.SelectedItem.Text);
-
-
-        SqlCommand Eind = new SqlCommand();
-
-        Eind.Connection = conn;  // Selecteer connection object mee
-        Eind.CommandText = String.Format("SELECT cast(Einddatum as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestival.SelectedItem.Text);
-
-        SqlCommand Prijs = new SqlCommand();
-
-        Prijs.Connection = conn;  // Selecteer connection object mee
-        Prijs.CommandText = String.Format("select cast(Prijs as varchar(50))FROM Festival WHERE Naam = '{0}' ", ddlFestival.SelectedItem.Text);
-
-        // Zend het database commando en ontvang data terug.
-        SqlDataReader dr = naam.ExecuteReader();
-
-        while (dr.Read())
+        // Execute het command
+        int ID = 0;
+        SqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
         {
-            txtNaam.Text += dr.GetString(0);
-        }
-        dr.Close();
+            // Festival Naam
+            txtNaam.Text = reader.GetString(1);
 
-        SqlDataReader dr2 = Plaats.ExecuteReader();
-        while (dr2.Read())
-        {
-            txtPlaats.Text += dr2.GetString(0);
-        }
-        dr2.Close();
+            // Plaats Naam
+            txtPlaats.Text = reader.GetString(2);
 
-        SqlDataReader dr3 = Begin.ExecuteReader();
-        while (dr3.Read())
-        {
-                txtBegin.Text += dr3.GetString(0);
-        }
-        dr3.Close();
+            // Begin Datum
+            string begin = reader.GetDateTime(3).ToString("yyyy-MM-dd");
+            string[] splBegin = begin.Split('-');
+            txtBegin.Text = splBegin[2] + "-" + splBegin[1] + "-" + splBegin[0];
 
-        SqlDataReader dr4 = Eind.ExecuteReader();
-        while (dr4.Read())
-        {
-            txtEind.Text += dr4.GetString(0);
-        }
-        dr4.Close();
+            // Eind Datum
+            string eind = reader.GetDateTime(4).ToString("yyyy-MM-dd");
+            string[] splEind = eind.Split('-');
+            txtEind.Text = splEind[2] + "-" + splEind[1] + "-" + splEind[0];
 
-        SqlDataReader dr5 = Prijs.ExecuteReader();
-        while (dr5.Read())
-        {
-            txtPrijs.Text += dr5.GetString(0);
+            // Prijs
+            txtPrijs.Text = Math.Round(reader.GetDecimal(5), 2).ToString();
+
+            // ID voor thema
+            ID = reader.GetInt32(0);
         }
-        dr5.Close();
+        reader.Close();
+
+        // De kleuren
+        SqlCommand cmdColor = new SqlCommand();
+        cmdColor.Connection = conn;
+        cmdColor.CommandText = String.Format("SELECT * FROM Themas WHERE FestivalID = '{0}'", ID);
+
+        SqlDataReader colorReader = cmdColor.ExecuteReader();
+
+        while (colorReader.Read())
+        {
+            // Primary Color
+            txtPrimaryColor.Text = colorReader.GetString(1);
+
+            // Secondary Color
+            txtSecondaryColor.Text = colorReader.GetString(2);
+
+            // Font Color
+            txtFontColor.Text = colorReader.GetString(3);
+        }
+        colorReader.Close();
+
+        // De afbeelding, moet in aparten SELECT omdat ik het als scalar moet executen
+        SqlCommand cmdImg = new SqlCommand();
+        cmdImg.Connection = conn;
+        cmdImg.CommandText = String.Format("SELECT FestivalImage FROM Festival WHERE Naam = '{0}'", ddlFestival.Text);
+
+        byte[] imgData = (byte[])cmdImg.ExecuteScalar();
+        imgBanner.Attributes["src"] = "data:image/png" + ";base64," + Convert.ToBase64String(imgData);
+
     }
 
     //Knoppen voor het menu
