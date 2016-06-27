@@ -65,14 +65,14 @@ public partial class Project_Files_Festivals : System.Web.UI.Page
         Plaats.CommandText = String.Format("SELECT Plaats FROM Festival WHERE Naam = '{0}' ", ddlFestival.SelectedItem.Text); //De platts
 
         SqlCommand Begin = new SqlCommand();
-            Begin.Connection = conn;  // Selecteer connection object mee
-            Begin.CommandText = String.Format("SELECT Begindatum FROM Festival WHERE Naam = '{0}' ", ddlFestival.SelectedItem.Text);
+        Begin.Connection = conn;  // Selecteer connection object mee
+        Begin.CommandText = String.Format("SELECT cast(Begindatum as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestival.SelectedItem.Text);
 
 
         SqlCommand Eind = new SqlCommand();
 
-        Begin.Connection = conn;  // Selecteer connection object mee
-        Begin.CommandText = String.Format("SELECT Eindatum FROM Festival WHERE Naam = '{0}' ", ddlFestival.SelectedItem.Text);
+        Eind.Connection = conn;  // Selecteer connection object mee
+        Eind.CommandText = String.Format("SELECT cast(Einddatum as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestival.SelectedItem.Text);
 
         SqlCommand Prijs = new SqlCommand();
 
@@ -95,19 +95,19 @@ public partial class Project_Files_Festivals : System.Web.UI.Page
         }
         dr2.Close();
 
-        //SqlDataReader dr3 = Begin.ExecuteReader();
-        //while (dr3.Read())
-        //{
-        //        txtBegin.Text += dr3.GetString(0);
-        //}
-        //dr3.Close();
+        SqlDataReader dr3 = Begin.ExecuteReader();
+        while (dr3.Read())
+        {
+                txtBegin.Text += dr3.GetString(0);
+        }
+        dr3.Close();
 
-        //SqlDataReader dr4 = Eind.ExecuteReader();
-        //while (dr4.Read())
-        //{
-        //    txtEind.Text += dr4.GetString(0);
-        //}
-        //dr4.Close();
+        SqlDataReader dr4 = Eind.ExecuteReader();
+        while (dr4.Read())
+        {
+            txtEind.Text += dr4.GetString(0);
+        }
+        dr4.Close();
 
         SqlDataReader dr5 = Prijs.ExecuteReader();
         while (dr5.Read())

@@ -92,7 +92,7 @@ public partial class Project_Files_Edit : System.Web.UI.Page
         SqlCommand Eind = new SqlCommand();
 
         Eind.Connection = conn;  // Selecteer connection object mee
-        Eind.CommandText = String.Format("SELECT cast(Eindatum as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text);
+        Eind.CommandText = String.Format("SELECT cast(Einddatum as varchar(50)) FROM Festival WHERE Naam = '{0}' ", ddlFestivals.SelectedItem.Text);
 
         SqlCommand Prijs = new SqlCommand();
 

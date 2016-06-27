@@ -4,6 +4,7 @@
     <link href="../CSS/StyleSheet.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphKop" Runat="Server">
+    <h1>Manager</h1>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphMenu" Runat="Server">
     <h3>Menu</h3>
