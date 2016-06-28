@@ -14,8 +14,8 @@ public partial class Project_Files_Home : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        // Wis eerst de literal
-        lblTest.Text = "";
+        // Wist de tekst van de tabel
+       lblTest.Text = "";
 
         // Een connectie maken met de SQL database
         SqlConnection conn = new SqlConnection();
@@ -42,18 +42,18 @@ public partial class Project_Files_Home : System.Web.UI.Page
         conn.Close();
     }
 
-
+    //login knop
     protected void btnLogin_Click(object sender, EventArgs e)
     {
         DataTable dt = new DataTable();
-        SqlDataAdapter adp = new SqlDataAdapter();
+        SqlDataAdapter adp = new SqlDataAdapter(); //Nieuwe database adapter
         try
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString);
-            SqlCommand cmd = new SqlCommand("Login_Check", con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            SqlCommand cmd = new SqlCommand("Login_Check", con);  //Pakt de parameter die aangemaakt is in sql
+            cmd.CommandType = CommandType.StoredProcedure; 
             cmd.Parameters.AddWithValue("@username", txtUsername.Text.Trim());
-            cmd.Parameters.AddWithValue("@pwd", txtPassword.Text.Trim());
+            cmd.Parameters.AddWithValue("@pwd", txtPassword.Text.Trim());   //Haalt alles uit de strings
             adp.SelectCommand = cmd;
             adp.Fill(dt);
             cmd.Dispose();
@@ -67,6 +67,7 @@ public partial class Project_Files_Home : System.Web.UI.Page
                 Session["Auto"] = lblTest.Text;
                 Session["Usernaam"] = txtUsername.Text;
                 Session["Wachtwoord"] = txtPassword.Text;
+                //Validatie regelt naar welke pagina je geredirect wordt
                 if (lblTest.Text == "0")
                 {
                     Server.Transfer("Admin.aspx", true);
@@ -84,10 +85,12 @@ public partial class Project_Files_Home : System.Web.UI.Page
             {
                 lblStatus.Visible = true;
                 lblStatus.Text = "Foute Gebruikersnaam of Wachtwoord";
+                //test 
                 //ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Foute Username/Password');", true);
             }
         }
         finally
+        //Ruimt alle restjes op
         {
             dt.Clear();
             dt.Dispose();
@@ -95,7 +98,8 @@ public partial class Project_Files_Home : System.Web.UI.Page
         }
     }
 
-
+    //Was eer bedoeld om terug te gaan naar de login
+    //Maakt nu de textboxen leeg en dat doe hij nu
     protected void btnBack_Click(object sender, EventArgs e)
     {
         Server.Transfer("Home.aspx");

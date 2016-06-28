@@ -19,13 +19,29 @@ public partial class Project_Files_FestivalManager : System.Web.UI.Page
 
         lblUsername.Text = (string)Session["Usernaam"]; //Checkt de  SessieState voor de username van de gebruiker
         lblAuto.Text = (string)Session["Auto"]; //Checkt de SessieState
-        if (lblAuto.Text == "0")
-        {
+    }
 
-        }
-        else if (lblAuto.Text == "1")
-        {
+    //buttons voor het menu
+    protected void btnData_Click(object sender, EventArgs e)
+    {
+        Server.Transfer("Festivals.aspx");
+    }
 
-        }
+    protected void btnEdit_Click(object sender, EventArgs e)
+    {
+        Server.Transfer("Edit.aspx");
+    }
+
+    protected void btnArtiest_Click(object sender, EventArgs e)
+    {
+        Server.Transfer("Artiest.aspx");
+    }
+    //Log out knop
+    protected void btnLogout_Click(object sender, EventArgs e)
+    {
+
+        Session.Clear(); //Haalt alle values leeg zodat er opnieuw iets wordt aangemaakt 
+        Session.Abandon(); //Dit destroyed heel de session
+        Server.Transfer("Home.aspx");  //Gaat terug naar de login page
     }
 }

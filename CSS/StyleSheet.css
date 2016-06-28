@@ -2,8 +2,8 @@
 {    font-weight: 700;
 }
 
-#Kop
-{
+#Kop    /*De kop tekst*/
+{ 
         position: absolute;
         top: 0px;
         left: 0px;
@@ -18,7 +18,7 @@
         z-index: 0;
 }
 
-#Menu
+#Menu   /*Het menu*/
 {
     background-color: #00796b;
     height: 10%;
@@ -31,26 +31,26 @@
     padding: 0px;
     /* De voorgrond laag */
     z-index: 1;
-}
-#ZijMenu
+} 
+#ZijMenu  /*Menu aan de zijkant*/
 {
     position:absolute;
     left: 0px;
     width: 10%;
     top: 20%;
-    height: 80%;
+    height: 110%;
     background-color: #00796b;
     text-align: center;
 }
 
-#BlokRechts
+#BlokRechts  /*het rechtse blokt */
 {
     position:absolute;
     left: 90%;
     right: 0px;
     width: 10%;
     top: 20%;
-    height: 80%;
+    height: 110%;
     background-color: #00796b;
     text-align: center;
 }
@@ -58,10 +58,9 @@
 #Footer
 {
     text-align: center;
-    top: 90%;
 }
 
-#Tekst
+#Tekst  /*De tekst in het miden */
 {
     background-color: white;
     position:absolute;
@@ -76,4 +75,25 @@
 .Inlog
 {
     text-align: right;
+}
+
+.auto-style1 
+{
+    width: 1338px;
+}
+.auto-style2 
+{
+    width: 527px;
+}
+.auto-style3 
+{
+    width: 997px;
+}
+.auto-style1 
+{
+    width: 105px;
+}
+.auto-style2 
+{
+    width: 295px;
 }

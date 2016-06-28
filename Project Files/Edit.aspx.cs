@@ -40,10 +40,7 @@ public partial class Project_Files_Edit : System.Web.UI.Page
             }
         }
     }
-    protected void btnInstellingen_Click1(object sender, EventArgs e)
-    {
-        Server.Transfer("SiteInstellingen.aspx");
-    }
+
     //Knoppen voor menu 
     protected void btnData_Click(object sender, EventArgs e)
     {
@@ -78,7 +75,7 @@ public partial class Project_Files_Edit : System.Web.UI.Page
         conn.ConnectionString = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
         conn.Open();
 
-        // Gemaakt door Wesley van Osch - 27-6-2016 - Maar 1 SELECT command voor alles
+
         SqlCommand cmd = new SqlCommand();
         cmd.Connection = conn;
         cmd.CommandText = String.Format("SELECT * FROM Festival WHERE Naam = '{0}'", ddlFestivals.Text);
@@ -226,7 +223,8 @@ public partial class Project_Files_Edit : System.Web.UI.Page
             cmdColor.ExecuteNonQuery();
 
             //Bevestiging
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Wijziging compleet');", true); //Geeft een bevestigins popup als het gelukt is
+            //Werkt niet omdat je Refresht kan gebruikt worden als javascript popup 
+            //ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Wijziging compleet');", true); //Geeft een bevestigins popup als het gelukt is
 
             // Sluit Connectie
             con.Close();
@@ -234,5 +232,13 @@ public partial class Project_Files_Edit : System.Web.UI.Page
             // Pagina Refresh
             Response.Redirect(Request.RawUrl);
         }
+    }
+    //Log out knop
+    protected void btnLogout_Click(object sender, EventArgs e)
+    {
+
+        Session.Clear(); //Haalt alle values leeg zodat er opnieuw iets wordt aangemaakt 
+        Session.Abandon(); //Dit destroyed heel de session
+        Server.Transfer("Home.aspx");  //Gaat terug naar de login page
     }
 }

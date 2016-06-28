@@ -56,7 +56,6 @@ public partial class Project_Files_Festivals : System.Web.UI.Page
         conn.ConnectionString = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
         conn.Open();
 
-        // Gemaakt door Wesley van Osch - 27-6-2016 - Maar 1 SELECT command voor alles
         SqlCommand cmd = new SqlCommand();
         cmd.Connection = conn;
         cmd.CommandText = String.Format("SELECT * FROM Festival WHERE Naam = '{0}'", ddlFestival.Text);
@@ -122,10 +121,6 @@ public partial class Project_Files_Festivals : System.Web.UI.Page
 
     //Knoppen voor het menu
 
-    protected void btnInstellingen_Click(object sender, EventArgs e)
-    {
-        Server.Transfer("SiteInstellingen.aspx");
-    }
 
     protected void btnData_Click(object sender, EventArgs e)
     {
@@ -140,5 +135,14 @@ public partial class Project_Files_Festivals : System.Web.UI.Page
     protected void btnArtiest_Click(object sender, EventArgs e)
     {
         Server.Transfer("Artiest.aspx");
+    }
+
+    //Log out knop
+    protected void btnLogout_Click(object sender, EventArgs e)
+    {
+
+        Session.Clear(); //Haalt alle values leeg zodat er opnieuw iets wordt aangemaakt 
+        Session.Abandon(); //Dit destroyed heel de session
+        Server.Transfer("Home.aspx");  //Gaat terug naar de login page
     }
 }

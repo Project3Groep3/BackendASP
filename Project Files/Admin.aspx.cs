@@ -14,15 +14,10 @@ using System.IO;
 
 public partial class Project_Files_Admin : System.Web.UI.Page
 {
+    //buttons voor het menu
     protected void Page_Load(object sender, EventArgs e)
     {
 
-    }
-
-
-    protected void btnInstellingen_Click1(object sender, EventArgs e)
-    {
-        Server.Transfer("SiteInstellingen.aspx");
     }
 
     protected void btnData_Click(object sender, EventArgs e)
@@ -38,5 +33,14 @@ public partial class Project_Files_Admin : System.Web.UI.Page
     protected void btnArtiest_Click(object sender, EventArgs e)
     {
         Server.Transfer("Artiest.aspx");
+    }
+
+    //Log out knop
+    protected void btnLogout_Click(object sender, EventArgs e)
+    {
+
+        Session.Clear(); //Haalt alle values leeg zodat er opnieuw iets wordt aangemaakt 
+        Session.Abandon(); //Dit destroyed heel de session
+        Server.Transfer("Home.aspx");  //Gaat terug naar de login page
     }
 }

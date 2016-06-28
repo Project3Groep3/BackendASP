@@ -11,299 +11,189 @@ using System.Web.Security;
 using System.Collections;
 using System.IO;
 
-
-
 public partial class Project_Files_Artiest : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
         lblAuto.Text = (string)Session["Auto"]; //Checkt de SessieState
-        lblUsername.Text = (string)Session["Usernaam"]; //Checkt de SessieState
+        lblUsername.Text = (string)Session["Usernaam"]; //Checkt de  SessieState voor de username van de gebruiker
         lblwachtwoord.Text = (string)Session["Wachtwoord"]; //Checkt de SessieState
-        if (lblAuto.Text == "0")
-        {
 
-        }
-        else if (lblAuto.Text == "1")
-        {
-
-        }
-        else if (lblAuto.Text == "2")
-        {
-            dplArtiesten.Visible = false;
-            lblSelect.Visible = false;
-            btnToevoegen.Visible = false;
-            txtSQLUsername.Text = lblUsername.Text;
-            txtSQLPassword.Text = lblwachtwoord.Text;
-            //Begin SQL Code om de naam en de email op te halen
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
-            conn.Open();
-            //Hierboven staat de Connectie
-            SqlCommand naam = new SqlCommand();
-            naam.Connection = conn;  // Selecteer connection object mee
-            //Hier komt het stuk voor het ophalen van de naam
-            naam.CommandText = String.Format("SELECT Naam FROM Artiesten WHERE Naam = '{0}'", lblUsername.Text);
-            SqlDataReader drNaam = naam.ExecuteReader();
-
-            drNaam.Read();
-            {
-                txtSQLNaam.Text += drNaam.GetString(0);
-            }
-            drNaam.Close();
-            //Hier komt het stuk voor het ophalen van de email
-            SqlConnection conn2 = new SqlConnection();
-            SqlCommand email = new SqlCommand();
-
-            email.Connection = conn;  // Selecteer connection object mee
-            email.CommandText = String.Format("SELECT Email FROM Artiesten WHERE Naam = '{0}' ", lblUsername.Text);
-            SqlDataReader drEmail = email.ExecuteReader();
-
-            drEmail.Read();
-            {
-                txtSQLEmail.Text += drEmail.GetString(0);
-            }
-            drEmail.Close();
-            conn.Close();
-        }
-            if (!this.IsPostBack) //Checkt of er postbak is
-            {
-                string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
-                using (SqlConnection con = new SqlConnection(constr))  //selecteert 
-                {
-                    using (SqlCommand cmd = new SqlCommand("SELECT Naam FROM Artiesten"))  //Het commando
-                    {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.Connection = con;  //Maakt een connectie
-                        con.Open();
-                        dplArtiesten.DataSource = cmd.ExecuteReader();
-                        dplArtiesten.DataTextField = "Naam";  //Data velden
-                        dplArtiesten.DataValueField = "Naam";
-                        dplArtiesten.DataBind();
-                        con.Close();
-                    }
-                }
-            }
-        }
-
-    protected void dplArtiesten_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        txtSQLNaam.Text = "";
-        txtSQLEmail.Text = "";
-        txtSQLInfo.Text = "";
-        txtSQLPassword.Text = "";
-
-        // Een connectie maken met de SQL database
-        SqlConnection conn = new SqlConnection();
-        conn.ConnectionString = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
-        conn.Open();
-
-        // Maak de database commands
-
-        SqlCommand naam = new SqlCommand();
-
-        naam.Connection = conn;  // Selecteer connection object mee
-        naam.CommandText = String.Format("SELECT Naam FROM Artiesten WHERE Naam = '{0}'", dplArtiesten.SelectedItem.Text);
-
-        SqlCommand email = new SqlCommand();
-
-        email.Connection = conn;  // Selecteer connection object mee
-        email.CommandText = String.Format("SELECT Email FROM Artiesten WHERE Naam = '{0}' ", dplArtiesten.SelectedItem.Text);
-
-        SqlCommand username = new SqlCommand();
-        if (lblAuto.Text == "2")
-        {
-            txtSQLUsername.Text = lblUsername.Text;
-        }
-        else
-        {
-            username.Connection = conn;  // Selecteer connection object mee
-            username.CommandText = String.Format("SELECT Username FROM Users WHERE Username = '{0}' ", dplArtiesten.SelectedItem.Text);
-            SqlDataReader dr3 = username.ExecuteReader();
-            while (dr3.Read())
-            {
-                txtSQLUsername.Text += dr3.GetString(0);
-            }
-            dr3.Close();
-        }
-
-        SqlCommand password = new SqlCommand();
-
-        password.Connection = conn;  // Selecteer connection object mee
-        password.CommandText = String.Format("SELECT Passwords FROM Users WHERE Naam = '{0}' ", dplArtiesten.SelectedItem.Text);
-
-        SqlCommand Info = new SqlCommand();
-
-        Info.Connection = conn;  // Selecteer connection object mee
-        Info.CommandText = String.Format("SELECT InnerContent FROM ArtiestenPagina WHERE Artiest = '{0}' ", dplArtiesten.SelectedItem.Text);
-
-        // Zend het database commando en ontvang data terug.
-        SqlDataReader dr = naam.ExecuteReader();
-
-        while (dr.Read())
-        {
-            txtSQLNaam.Text += dr.GetString(0);
-        }
-        dr.Close();
-
-        SqlDataReader dr2 = email.ExecuteReader();
-        while (dr2.Read())
-        {
-            txtSQLEmail.Text += dr2.GetString(0);
-        }
-        dr2.Close();
-
-        SqlDataReader dr4 = password.ExecuteReader();
-        while (dr4.Read())
-        {
-            txtSQLPassword.Text += dr4.GetString(0);
-        }
-        dr4.Close();
-
-        SqlDataReader dr5 = Info.ExecuteReader();
-        while (dr5.Read())
-        {
-            txtSQLInfo.Text += dr5.GetString(0);
-        }
-        dr5.Close();
         if (!this.IsPostBack) //Checkt of er postbak is
         {
             string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
             using (SqlConnection con = new SqlConnection(constr))  //selecteert 
             {
-                using (SqlCommand cmd = new SqlCommand("SELECT Naam FROM Festival"))  //Het commando
+                using (SqlCommand cmd = new SqlCommand("SELECT Artiest, UserID FROM ArtiestenPagina"))  //Het commando
                 {
                     cmd.CommandType = CommandType.Text;
                     cmd.Connection = con;  //Maakt een connectie
                     con.Open();
-                    dplArtiesten.DataSource = cmd.ExecuteReader();
-                    dplArtiesten.DataTextField = "Naam";  //Data velden
-                    dplArtiesten.DataValueField = "Naam";
-                    dplArtiesten.DataBind();
+                    ddlArtiest.DataSource = cmd.ExecuteReader();
+                    ddlArtiest.DataTextField = "Artiest";  //Data velden
+                    ddlArtiest.DataValueField = "UserID";
+                    ddlArtiest.DataBind();
                     con.Close();
                 }
             }
         }
     }
 
-
-    protected void btnEdit_Click(object sender, EventArgs e)
-    {
-        txtSQLNaam.ReadOnly = false;
-    }
-
-    protected void btnEdit2_Click(object sender, EventArgs e)
-    {
-        txtSQLEmail.ReadOnly = false;
-    }
-
-    protected void btnOpslaan_Click(object sender, EventArgs e)
+    protected void ddlArtiest_SelectedIndexChanged(object sender, EventArgs e)
     {
         string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
-        using (SqlConnection con = new SqlConnection(constr))  //selecteert 
+        using (SqlConnection con = new SqlConnection(constr))
         {
-            SqlCommand command2 = new SqlCommand();  //Selecteert de Groep
-            command2.CommandType = CommandType.Text;
-            command2.Connection = con;  //Maakt een connectie
-            command2.CommandText = String.Format("update Artiesten set Naam = @Naam where Naam =  '{0}' ", txtSQLNaam.Text);
+            con.Open();
+
+            // Pagina Table
+            SqlCommand cmdPagina = new SqlCommand();
+            cmdPagina.CommandType = CommandType.Text;
+            cmdPagina.Connection = con;
+            cmdPagina.CommandText = String.Format("SELECT Artiest, InnerContent FROM ArtiestenPagina WHERE Artiest = '{0}'", ddlArtiest.SelectedItem.Text);
+
+            SqlDataReader readerPagina = cmdPagina.ExecuteReader();
+
+            while (readerPagina.Read())
+            {
+                txtSQLNaam.Text = readerPagina.GetString(0);
+                txtSQLInfo.Text = readerPagina.GetString(1);
+            }
+            readerPagina.Close();
+
+            // Image Ophalen
+            SqlCommand cmdImage = new SqlCommand();
+            cmdImage.CommandType = CommandType.Text;
+            cmdImage.Connection = con;
+            cmdImage.CommandText = String.Format("SELECT ArtistImage FROM ArtiestenPagina WHERE Artiest = '{0}'", ddlArtiest.SelectedItem.Text);
+
+            byte[] imgData = (byte[])cmdImage.ExecuteScalar();
+            imgArtiest.Attributes["src"] = "data:image/png" + ";base64," + Convert.ToBase64String(imgData);
+
+            // Artiest Table
+            SqlCommand cmdArtiest = new SqlCommand();
+            cmdArtiest.CommandType = CommandType.Text;
+            cmdArtiest.Connection = con;
+            cmdArtiest.CommandText = String.Format("SELECT Email FROM Artiesten WHERE Naam = '{0}'", ddlArtiest.SelectedItem.Text);
+
+            SqlDataReader readerArtiest = cmdArtiest.ExecuteReader();
+
+            while(readerArtiest.Read())
+            {
+                txtSQLEmail.Text = readerArtiest.GetString(0);
+            }
+            readerArtiest.Close();
+
+            // User Table
+            SqlCommand cmdUser = new SqlCommand();
+            cmdUser.CommandType = CommandType.Text;
+            cmdUser.Connection = con;
+            cmdUser.CommandText = String.Format("SELECT Username, Passwords FROM Users WHERE UserID = {0}", ddlArtiest.SelectedValue);
+
+            SqlDataReader readerUser = cmdUser.ExecuteReader();
+
+            while (readerUser.Read())
+            {
+                txtSQLUsername.Text = readerUser.GetString(0);
+                txtSQLPassword.Text = readerUser.GetString(1);
+            }
+            readerUser.Close();
+            con.Close();
+        }
+    }
+
+    protected void btnEmail_Click(object sender, EventArgs e)
+    {
+        if (!String.IsNullOrEmpty(txtSQLEmail.Text))
+        {
+            string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
             {
                 con.Open();
-                string Naam = txtSQLNaam.Text;
-                command2.Parameters.AddWithValue("Naam", Naam);
-                command2.ExecuteNonQuery();  //Voert de commands uit
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Wijziging compleet');", true);
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = con;
+                cmd.CommandText = String.Format("UPDATE Artiesten SET Email = @Email WHERE Naam = '{0}'", ddlArtiest.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("Email", txtSQLEmail.Text);
+                cmd.ExecuteNonQuery();
                 con.Close();
-
             }
         }
-
-    }
-
-    protected void btnToevoegen_Click(object sender, EventArgs e)
-    {
-        txtSQLEmail.ReadOnly = false;
-        txtSQLNaam.ReadOnly = false;
-        txtSQLPassword.ReadOnly = false;
-        txtSQLUsername.ReadOnly = false;
-        btnEdit2.Visible = false;
-        btnEdit.Visible = false;
-        btnEdit3.Visible = false;
-        btnEdit4.Visible = false;
-        //btnEdit5.Visible = false;
-        btnOpslaan.Visible = false;
-        btnOpslaan2.Visible = false;
-        btnOpslaan3.Visible = false;
-        btnOpslaan4.Visible = false;
-        //btnOpslaan5.Visible = false;
-        lblAuto.Text = dplArtiesten.SelectedItem.Text;
-    }
-
-    //Opslaan email
-    protected void btnOpslaan2_Click(object sender, EventArgs e)
-    {
-        string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
-        using (SqlConnection con = new SqlConnection(constr))  //selecteert 
+        else
         {
-            SqlCommand command3 = new SqlCommand();  //Selecteert de Groep
-            command3.CommandType = CommandType.Text;
-            command3.Connection = con;  //Maakt een connectie
-            command3.CommandText = String.Format("update Artiesten set Email = @Email where Naam =  '{0}' ", txtSQLNaam.Text);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Veld is niet ingevuld!');", true);
+        }
+    }
+
+
+    protected void btnPassword_Click(object sender, EventArgs e)
+    {
+        if (!String.IsNullOrEmpty(txtSQLPassword.Text))
+        {
+            string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
             {
                 con.Open();
-                string Email = txtSQLEmail.Text;
-                command3.Parameters.AddWithValue("Email", Email);
-                command3.ExecuteNonQuery();  //Voert de commands uit
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Wijziging compleet');", true);
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = con;
+                cmd.CommandText = String.Format("UPDATE Users SET Passwords = @Password WHERE UserID = {0}", ddlArtiest.SelectedValue);
+                cmd.Parameters.AddWithValue("Password", txtSQLPassword.Text);
+                cmd.ExecuteNonQuery();
                 con.Close();
-
             }
         }
-    }
-    //Toevoegen van mensen in de databse 
-    protected void btnAdd_Click(object sender, EventArgs e)
-    {
-        string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
-        using (SqlConnection con = new SqlConnection(constr))  //selecteert 
+        else
         {
-            SqlCommand command = new SqlCommand();  //Selecteert de Groep
-            command.CommandType = CommandType.Text;
-            command.Connection = con;
-            command.CommandText = String.Format(("INSERT INTO Artiesten (Naam, Email, PodiumID, FestivalID, UserID, PaginaID) VALUES (@Naam, @Email, (SELECT PodiumID FROM Podiums WHERE Podiumnaam = 'Podium 0'), (SELECT FestivalID FROM Festival WHERE Naam = 'Woo Hah'), (SELECT UserID FROM Users WHERE Username = @Username), (SELECT PaginaID FROM ArtiestenPagina WHERE Artiest = @Naam"));  //Selecteert de Groep)
-            {
-                command.CommandType = CommandType.Text;
-                command.Connection = con;  //Maakt een connectie
-                con.Open();
-                string Naam = txtSQLNaam.Text;
-                command.Parameters.AddWithValue("Naam", Naam);
-                string Email = txtSQLEmail.Text;
-                command.Parameters.AddWithValue("Adres", Email);  //Je kan alles toevoegen
-                string Username = txtSQLUsername.Text;
-                command.Parameters.AddWithValue("Postcode", Username);
-                string Password = txtSQLPassword.Text;
-                command.Parameters.AddWithValue("Woonplaats", Password);
-                command.ExecuteNonQuery();  //Voert de commands uit
-
-            }
-            txtSQLEmail.ReadOnly = true;
-            txtSQLNaam.ReadOnly = true;
-            txtSQLPassword.ReadOnly = true;
-            txtSQLUsername.ReadOnly = true;
-            btnEdit2.Visible = true;
-            btnEdit.Visible = true;
-            btnEdit3.Visible = true;
-            btnEdit4.Visible = true;
-            //btnEdit5.Visible = false;
-            btnOpslaan.Visible = true;
-            btnOpslaan2.Visible = true;
-            btnOpslaan3.Visible = true;
-            btnOpslaan4.Visible = true;
-            //btnOpslaan5.Visible = false;
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Veld is niet ingevuld!');", true);
         }
     }
 
-    protected void ddlFest_SelectedIndexChanged(object sender, EventArgs e)
+    protected void btnContent_Click(object sender, EventArgs e)
     {
+        if (!String.IsNullOrEmpty(txtSQLInfo.Text))
+        {
+            string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = con;
+                cmd.CommandText = String.Format("UPDATE ArtiestenPagina SET InnerContent = @InnerContent WHERE Artiest = '{0}'", ddlArtiest.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("InnerContent", txtSQLInfo.Text);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Veld is niet ingevuld!');", true); //Geeft een bevestigins popup als het gelukt is
+        }
+    }
 
+    protected void btnImage_Click(object sender, EventArgs e)
+    {
+        if (imgUpload.FileBytes.Length > 0)
+        {
+            string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = con;
+                cmd.CommandText = String.Format("UPDATE ArtiestenPagina SET ArtistImage = @ArtistImage WHERE Artiest = '{0}'", ddlArtiest.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("ArtistImage", SqlDbType.Image).Value = imgUpload.FileBytes;
+                cmd.ExecuteNonQuery();
+                con.Close();
+                Response.Redirect(Request.RawUrl);
+            }
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Image is niet aangegeven!');", true);
+        }
     }
 
     //Alle knoppen voor het menu
@@ -317,8 +207,6 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
         Server.Transfer("Festivals.aspx");
     }
 
-
-
     protected void btnArtiest_Click(object sender, EventArgs e)
     {
         Server.Transfer("Artiest.aspx");
@@ -327,5 +215,14 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
     protected void btnEditMenu_Click(object sender, EventArgs e)
     {
         Server.Transfer("Edit.aspx");
+    }
+
+    //Log out knop
+    protected void btnLogout_Click(object sender, EventArgs e)
+    {
+
+        Session.Clear(); //Haalt alle values leeg zodat er opnieuw iets wordt aangemaakt 
+        Session.Abandon(); //Dit destroyed heel de session
+        Server.Transfer("Home.aspx");  //Gaat terug naar de login page
     }
 }
