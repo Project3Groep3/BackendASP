@@ -221,7 +221,7 @@ public partial class Project_Files_Edit : System.Web.UI.Page
 
             // Kleur Command Executen
             cmdColor.ExecuteNonQuery();
-
+            
             //Bevestiging
             //Werkt niet omdat je Refresht kan gebruikt worden als javascript popup 
             //ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Wijziging compleet');", true); //Geeft een bevestigins popup als het gelukt is

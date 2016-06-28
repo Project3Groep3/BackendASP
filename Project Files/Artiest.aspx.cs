@@ -56,14 +56,14 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
 
             while (readerPagina.Read())
             {
-                txtSQLNaam.Text = readerPagina.GetString(0);
+                txtSQLNaam.Text = readerPagina.GetString(0); //Haalt de informatie van de pagina af
                 txtSQLInfo.Text = readerPagina.GetString(1);
             }
             readerPagina.Close();
 
             // Image Ophalen
             SqlCommand cmdImage = new SqlCommand();
-            cmdImage.CommandType = CommandType.Text;
+            cmdImage.CommandType = CommandType.Text; 
             cmdImage.Connection = con;
             cmdImage.CommandText = String.Format("SELECT ArtistImage FROM ArtiestenPagina WHERE Artiest = '{0}'", ddlArtiest.SelectedItem.Text);
 
@@ -102,9 +102,10 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
         }
     }
 
+    //Email
     protected void btnEmail_Click(object sender, EventArgs e)
     {
-        if (!String.IsNullOrEmpty(txtSQLEmail.Text))
+        if (!String.IsNullOrEmpty(txtSQLEmail.Text))  //Checkof hij leeg is
         {
             string constr = ConfigurationManager.ConnectionStrings["MojoConnectionString"].ConnectionString;
             using (SqlConnection con = new SqlConnection(constr))
@@ -125,7 +126,7 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
         }
     }
 
-
+    //Wachtwoord
     protected void btnPassword_Click(object sender, EventArgs e)
     {
         if (!String.IsNullOrEmpty(txtSQLPassword.Text))
@@ -148,7 +149,8 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Message", "alert('Veld is niet ingevuld!');", true);
         }
     }
-
+    
+    //Info over artiest
     protected void btnContent_Click(object sender, EventArgs e)
     {
         if (!String.IsNullOrEmpty(txtSQLInfo.Text))
@@ -172,6 +174,7 @@ public partial class Project_Files_Artiest : System.Web.UI.Page
         }
     }
 
+    //Afbeelding
     protected void btnImage_Click(object sender, EventArgs e)
     {
         if (imgUpload.FileBytes.Length > 0)
